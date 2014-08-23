@@ -1,9 +1,9 @@
 var gulp = require('gulp');
-var mocha = require('gulp-mocha');
-
+var plugins = require('./');
+var plugin = plugins('gulp-*');
 
 
 gulp.task('default', function () {
   gulp.src('test/test.js', {read: false})
-    .pipe(mocha({reporter: 'spec'}));
+    .pipe(plugin.mocha({reporter: 'spec'}));
 });

@@ -17,7 +17,7 @@ var regex = /(grunt|gulp|assemble|verb|handlebars|helper|plugin)-/;
 module.exports = function (patterns, options) {
   var opts = _.defaults({}, options, {
     strict: true, // resolve-dep
-    require: false,
+    require: true,
     regex: regex,
     pathFn: pathFn
   });
