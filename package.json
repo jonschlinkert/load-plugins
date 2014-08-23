@@ -1,7 +1,7 @@
 {
   "name": "load-plugins",
   "description": "Thin wrapper around resolve-dep for loading plugins from node_modules or local directories. Works for gulp, grunt, assemble, verb or anything other task runner or build system that uses plugins.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/jonschlinkert/load-plugins",
   "author": {
     "name": "Jon Schlinkert",
@@ -75,7 +75,7 @@
     "verb-tag-jscomments": ">= 0.2.6"
   },
   "dependencies": {
-    "is-absolute": "^0.1.4",
+    "app-name": "^0.1.4",
     "lodash": "^2.4.1",
     "resolve-dep": "^0.5.3"
   }
