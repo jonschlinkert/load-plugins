@@ -27,14 +27,13 @@ describe('plugins', function () {
     Object.keys(actual).length.should.equal(2);
   });
 
-
   it('should load local plugins', function () {
-    var actual = plugins('./gulpfile.js');
-    Object.keys(actual).length.should.equal(1);
+    var actual = plugins('./test/fixtures/*.js');
+    Object.keys(actual).length.should.equal(3);
   });
 
   it('should load local plugins', function () {
-    var actual = plugins('./test/fixtures/a.js');
+    var actual = plugins('./gulpfile.js');
     Object.keys(actual).length.should.equal(1);
   });
 });

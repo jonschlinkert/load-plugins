@@ -9,34 +9,39 @@
 
 var path = require('path');
 var resolve = require('resolve-dep');
+var isAbsolute = require('is-absolute');
 var _ = require('lodash');
 
-var regex = /(grunt|gulp|assemble|verb|handlebars|helper|plugin)-/;
+var names = ['grunt', 'gulp', 'assemble', 'verb', 'handlebars', 'helper', 'plugin'];
+var list = '(' + names.join('|') + ')';
+var re = new RegExp(list + '[^\\\\\/]*', 'g');
 
+function rename(filepath, re) {
+  var name = path.relative(process.cwd(), filepath);
+  if (/node_modules/.test(name)) {
+    name = name.match(re)[0];
+    var res = new RegExp(list + '-');
+    name = name.replace(res, '');
+  } else {
+    name = path.basename(name, path.extname(name));
+  }
+  return name;
+};
 
 module.exports = function (patterns, options) {
   var opts = _.defaults({}, options, {
-    strict: true, // resolve-dep
-    require: true,
-    regex: regex,
-    pathFn: pathFn
+    strict: false, // resolve-dep
+    require: false,
+    regex: re
   });
 
-  var dirpath = path.join(process.cwd(), 'node_modules');
   var plugins = {};
 
-  resolve(patterns, _.pick(opts, 'strict')).forEach(function (filepath) {
-    var name = pathFn(dirpath, filepath, regex);
+  resolve(patterns, opts).forEach(function (filepath) {
+    var name = rename(filepath, opts.regex);
     plugins[name] = opts.require ? require(filepath) : filepath;
   });
 
   return plugins;
 };
 
-
-function pathFn(initial, filepath, re) {
-  return path.normalize(filepath)
-    .replace(path.normalize(initial), '')
-    .replace(/^[\\\/]/, '').split(/[\\\/]/)[0]
-    .replace(re, '');
-};
