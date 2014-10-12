@@ -67,16 +67,19 @@
   },
   "devDependencies": {
     "gulp": "^3.8.7",
-    "gulp-jshint": "^1.8.4",
     "gulp-mocha": "^1.0.0",
     "mocha": "*",
+    "node-bar": "^0.2.0",
+    "node-baz": "^0.2.0",
+    "node-foo": "^0.2.1",
     "should": "^4.0.4",
     "verb": ">= 0.2.6",
-    "verb-tag-jscomments": ">= 0.2.6"
+    "verb-tag-jscomments": ">= 0.2.0"
   },
   "dependencies": {
-    "app-name": "^0.1.4",
-    "lodash": "^2.4.1",
+    "app-name": "^0.2.0",
+    "object.defaults": "^0.1.0",
+    "omit-string": "^0.1.1",
     "resolve-dep": "^0.5.3"
   }
 }
