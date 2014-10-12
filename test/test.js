@@ -15,7 +15,7 @@ describe('plugins', function () {
   it('should load plugins from node_modules', function () {
     var res = plugins('gulp-*');
     Object.keys(res).length.should.equal(1);
-    res.should.have.property('gulp-mocha');
+    res.should.have.property('mocha');
   });
 
   it('should load plugins from node_modules', function () {

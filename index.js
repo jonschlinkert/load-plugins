@@ -8,44 +8,93 @@
 'use strict';
 
 var path = require('path');
-var resolve = require('resolve-dep');
 var appname = require('app-name');
-var _ = require('lodash');
+var resolve = require('resolve-dep');
+var defaults = require('object.defaults');
+var camelize = require('./lib/camelize');
+var segments = require('./lib/segments');
+var basename = require('./lib/basename');
+var excludes = require('./lib/excludes');
+
 
 /**
- * Load plugins using the given `patterns` and `options`.
+ * Load plugins from `node_modules` or a local directory.
  *
- * @param  {String} `patterns`
- * @param  {Object} `options`
- *     @option {Object} [options] `options`
- * @return {Object} Returns an object of loaded plugins.
+ * ```js
+ * var plugins = require('load-plugins')('gulp-*');
+ * var jshint = plugins['gulp-jshint'];
+ * var mocha = plugins['gulp-mocha'];
+ * ```
+ *
+ * @param  {String} `patterns` Glob pattern to use.
+ * @param  {String} `options`
+ * @return {String}
  */
 
-module.exports = function (patterns, options) {
-  var opts = _.defaults({}, options, {
-    strict: false, // resolve-dep
-    require: false,
-    strip: ['grunt', 'gulp', 'assemble', 'verb', 'handlebars', 'helper', 'plugin'],
-    rename: rename
-  });
+function plugins(patterns, options) {
+  var files = resolve(patterns, options);
 
-  var plugins = {};
-  resolve(patterns, opts).forEach(function (filepath) {
-    var name = opts.rename(filepath, opts.strip);
-    plugins[name] = opts.require ? require(filepath) : filepath;
-  });
-  return plugins;
-};
-
-
-function rename(filepath, names) {
-  if (/node_modules/.test(filepath)) {
-    var dir = path.relative(process.cwd(), filepath);
-    dir = dir.split(/[\\\/]+/g);
-    dir.shift();
-    filepath = dir[0];
-  } else {
-    filepath = path.basename(filepath, path.extname(filepath));
-  }
-  return appname(filepath, names);
+  return files.reduce(function (cache, filepath) {
+    var key = rename(filepath, options);
+    cache[key] = req(filepath, options);
+    return cache;
+  }, {});
 }
+
+/**
+ * Default `require` function. Pass a custom function to
+ * `options.require` to override.
+ *
+ * @param  {String} filepath
+ * @param  {String} `options`
+ * @return {String}
+ */
+
+function req(filepath, options) {
+  var opts = defaults({}, options);
+  if (opts.require) {
+    return opts.require(filepath, opts);
+  }
+  var fp = path.resolve(filepath);
+  return require(fp);
+}
+
+/**
+ * Rename function. Pass a custom function to `options.name` to change behavior.
+ *
+ *   - Detect if the path is in node_modules, if so use the name of the module.
+ *   - If not, use the name of file.
+ *   - If the file name is `index`, use the last directory segment.
+ *
+ * Of course, these are best guesses. If you use a wierd directory
+ * structure for your plugins, it's probably a good idea to use a
+ * custom renaming function.
+ *
+ * @param  {String} `filepath`
+ * @return {String}
+ */
+
+function rename(filepath, options) {
+  var opts = defaults({omit: excludes}, options);
+  var name;
+
+  if (opts.name) {
+    return opts.name(filepath, opts);
+  }
+
+  if (/node_modules/.test(filepath)) {
+    name = segments(filepath, 1, 2);
+  } else {
+    name = basename(filepath);
+  }
+
+  if (name === 'index') {
+    name = segments(filepath, -2)[0];
+  }
+
+  var str = appname(name, opts.omit);
+  return camelize(str);
+}
+
+
+module.exports = plugins;

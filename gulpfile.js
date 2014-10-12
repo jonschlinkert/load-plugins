@@ -1,9 +1,14 @@
 var gulp = require('gulp');
-var plugins = require('./');
-var plugin = plugins('gulp-*');
+
+/**
+ * Example usage of load-plugins
+ */
+
+var plugins = require('./')('gulp-*');
+var mocha = plugins['gulp-mocha'];
 
 
 gulp.task('default', function () {
   gulp.src('test/test.js', {read: false})
-    .pipe(plugin.mocha({reporter: 'spec'}));
+    .pipe(mocha({reporter: 'spec'}));
 });
