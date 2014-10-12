@@ -33,8 +33,4 @@ describe('plugins', function () {
       }
      })).length.should.equal(3);
   });
-
-  it('should load local plugins', function () {
-     Object.keys(plugins('./gulpfile.js')).length.should.equal(1);
-  });
 });

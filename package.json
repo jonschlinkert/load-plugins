@@ -1,7 +1,7 @@
 {
   "name": "load-plugins",
   "description": "Load plugins for gulp, grunt, assemble, verb any node.js app that needs to load plugins from node_modules or local folders.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://github.com/jonschlinkert/load-plugins",
   "author": {
     "name": "Jon Schlinkert",
@@ -74,7 +74,6 @@
   },
   "dependencies": {
     "app-name": "^0.2.0",
-    "object.defaults": "^0.1.0",
     "resolve-dep": "^0.5.3"
   }
 }

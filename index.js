@@ -10,12 +10,11 @@
 var path = require('path');
 var appname = require('app-name');
 var resolve = require('resolve-dep');
-var defaults = require('object.defaults');
 var camelize = require('./lib/camelize');
 var segments = require('./lib/segments');
 var basename = require('./lib/basename');
 var excludes = require('./lib/excludes');
-
+var extend = require('./lib/extend');
 
 /**
  * Load plugins from `node_modules` or a local directory.
@@ -51,7 +50,7 @@ function plugins(patterns, options) {
  */
 
 function req(filepath, options) {
-  var opts = defaults({}, options);
+  var opts = extend({}, options);
   if (opts.require) {
     return opts.require(filepath, opts);
   }
@@ -75,7 +74,7 @@ function req(filepath, options) {
  */
 
 function rename(filepath, options) {
-  var opts = defaults({omit: excludes}, options);
+  var opts = extend({omit: excludes}, options);
   var name;
 
   if (opts.name) {
