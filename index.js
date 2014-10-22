@@ -15,6 +15,7 @@ var segments = require('./lib/segments');
 var basename = require('./lib/basename');
 var excludes = require('./lib/excludes');
 var relative = require('./lib/relative');
+var expand = require('./lib/expand');
 var extend = require('./lib/extend');
 
 /**
@@ -32,7 +33,7 @@ var extend = require('./lib/extend');
  */
 
 function plugins(patterns, options) {
-  var files = resolve(patterns, options);
+  var files = resolve(patterns, extend({strict: true}, options));
 
   return files.reduce(function (cache, filepath) {
     var key = rename(filepath, options);
@@ -78,10 +79,6 @@ function rename(filepath, options) {
   var opts = extend({omit: excludes}, options);
   var name;
 
-  if (opts.name) {
-    return opts.name(filepath, opts);
-  }
-
   filepath = relative(filepath);
 
   if (/node_modules/.test(filepath)) {
@@ -94,8 +91,11 @@ function rename(filepath, options) {
     name = segments(filepath, -2)[0];
   }
 
-  var str = appname(name, opts.omit);
-  return camelize(str);
+  var str = appname(name, expand(opts.omit));
+  if (opts.camelize) {
+    return camelize(str);
+  }
+  return str;
 }
 
 
