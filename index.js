@@ -14,6 +14,7 @@ var camelize = require('./lib/camelize');
 var segments = require('./lib/segments');
 var basename = require('./lib/basename');
 var excludes = require('./lib/excludes');
+var relative = require('./lib/relative');
 var extend = require('./lib/extend');
 
 /**
@@ -80,6 +81,8 @@ function rename(filepath, options) {
   if (opts.name) {
     return opts.name(filepath, opts);
   }
+
+  filepath = relative(filepath);
 
   if (/node_modules/.test(filepath)) {
     name = segments(filepath, 1, 2);
