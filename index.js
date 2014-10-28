@@ -76,7 +76,7 @@ function req(filepath, options) {
  */
 
 function rename(filepath, options) {
-  var opts = extend({omit: excludes}, options);
+  var opts = extend({strip: excludes}, options);
   var name;
 
   filepath = relative(filepath);
@@ -91,7 +91,7 @@ function rename(filepath, options) {
     name = segments(filepath, -2)[0];
   }
 
-  var str = appname(name, expand(opts.omit));
+  var str = appname(name, expand(opts.strip));
   if (opts.camelize) {
     return camelize(str);
   }
