@@ -1,14 +1,11 @@
+'use strict';
+
 var gulp = require('gulp');
-
-/**
- * Example usage of load-plugins
- */
-
-var plugins = require('./')('gulp-*');
-var mocha = plugins['gulp-mocha'];
-
+var plugin = require('./')('gulp-*');
 
 gulp.task('default', function () {
-  gulp.src('test/test.js', {read: false})
-    .pipe(mocha({reporter: 'spec'}));
+  gulp.src('test/test.js')
+    .pipe(plugin.mocha({
+      reporter: 'spec'
+    }));
 });
