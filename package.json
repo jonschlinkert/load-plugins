@@ -1,7 +1,7 @@
 {
   "name": "load-plugins",
   "description": "Load plugins for gulp, grunt, assemble, verb any node.js app that needs to load plugins from node_modules or local folders.",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/jonschlinkert/load-plugins",
   "author": {
     "name": "Jon Schlinkert",
@@ -14,21 +14,34 @@
   "bugs": {
     "url": "https://github.com/jonschlinkert/load-plugins/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/jonschlinkert/load-plugins/blob/master/LICENSE-MIT"
-    }
-  ],
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/jonschlinkert/load-plugins/blob/master/LICENSE-MIT"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "dependencies": {
+    "app-name": "^0.2.0",
+    "braces": "^0.1.5",
+    "resolve-dep": "^0.5.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-mocha": "^1.0.0",
+    "mocha": "*",
+    "node-bar": "^0.2.0",
+    "node-baz": "^0.2.0",
+    "node-foo": "^0.2.1",
+    "should": "^4.0.4"
+  },
   "keywords": [
-    "assemble",
-    "config",
     "dep",
     "deps",
-    "fn",
-    "file",
-    "filepath",
-    "files",
     "glob",
     "grunt",
     "gulp",
@@ -42,39 +55,10 @@
     "minimatch",
     "module",
     "modules",
-    "node",
-    "paths",
     "task",
-    "pattern",
     "plugin",
     "plugins",
-    "require",
     "resolve",
-    "resolved",
-    "templates",
-    "verb"
-  ],
-  "main": "index.js",
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "scripts": {
-    "test": "mocha -R spec"
-  },
-  "devDependencies": {
-    "gulp": "^3.8.7",
-    "gulp-mocha": "^1.0.0",
-    "mocha": "*",
-    "node-bar": "^0.2.0",
-    "node-baz": "^0.2.0",
-    "node-foo": "^0.2.1",
-    "should": "^4.0.4",
-    "verb": ">= 0.2.6",
-    "verb-tag-jscomments": ">= 0.2.0"
-  },
-  "dependencies": {
-    "app-name": "^0.2.0",
-    "braces": "^0.1.0",
-    "resolve-dep": "^0.5.3"
-  }
+    "resolved"
+  ]
 }
