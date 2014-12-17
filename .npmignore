@@ -8,3 +8,10 @@ test/actual
 tmp
 TODO.md
 vendor
+
+# npmignore
+test
+.gitattributes
+.jshintrc
+.verbrc.md
+gulpfile.js
