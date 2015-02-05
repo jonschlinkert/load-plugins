@@ -19,6 +19,12 @@ var expand = require('./lib/expand');
 var extend = require('./lib/extend');
 
 /**
+ * Expose `plugins`
+ */
+
+module.exports = plugins;
+
+/**
  * Load plugins from `node_modules` or a local directory.
  *
  * ```js
@@ -97,6 +103,3 @@ function rename(filepath, options) {
   }
   return str;
 }
-
-
-module.exports = plugins;
