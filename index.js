@@ -16,7 +16,7 @@ var basename = require('./lib/basename');
 var excludes = require('./lib/excludes');
 var relative = require('./lib/relative');
 var expand = require('./lib/expand');
-var extend = require('./lib/extend');
+var extend = require('extend');
 
 /**
  * Expose `plugins`
