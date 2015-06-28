@@ -1,7 +1,7 @@
 {
   "name": "load-plugins",
   "description": "Load plugins for gulp, grunt, assemble, verb any node.js app that needs to load plugins from node_modules or local folders.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/jonschlinkert/load-plugins",
   "author": {
     "name": "Jon Schlinkert",
@@ -14,20 +14,20 @@
   "bugs": {
     "url": "https://github.com/jonschlinkert/load-plugins/issues"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/jonschlinkert/load-plugins/blob/master/LICENSE-MIT"
-  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
   "main": "index.js",
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "mocha"
   },
   "dependencies": {
     "app-name": "^0.2.0",
-    "braces": "^0.1.5",
+    "braces": "^1.8.0",
     "resolve-dep": "^0.5.3"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "node-bar": "^0.2.0",
     "node-baz": "^0.2.0",
     "node-foo": "^0.2.1",
-    "should": "^4.0.4"
+    "should": "^7.0.1"
   },
   "keywords": [
     "dep",
