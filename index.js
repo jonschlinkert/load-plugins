@@ -38,12 +38,12 @@ module.exports = plugins;
  * @return {String}
  */
 
-function plugins(patterns, options) {
-  var files = resolve(patterns, extend({strict: true}, options));
+function plugins(patterns, opts) {
+  var files = resolve(patterns, extend({strict: true}, opts));
 
-  return files.reduce(function (cache, filepath) {
-    var key = rename(filepath, options);
-    cache[key] = req(filepath, options);
+  return files.reduce(function (cache, fp) {
+    var key = rename(fp, opts);
+    cache[key] = req(fp, opts);
     return cache;
   }, {});
 }

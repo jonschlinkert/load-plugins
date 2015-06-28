@@ -1,13 +1,14 @@
 /*!
  * load-plugins <https://github.com/jonschlinkert/load-plugins>
  *
- * Copyright (c) 2014 Jon Schlinkert, contributors.
- * Licensed under the MIT License
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT License.
  */
 
 'use strict';
 
-var should = require('should');
+/* deps: mocha node-foo node-bar node-baz gulp-mocha */
+require('should');
 var plugins = require('..');
 var resolve = require('resolve-dep');
 
@@ -19,7 +20,7 @@ describe('plugins', function () {
   });
 
   it('should load plugins from node_modules', function () {
-     Object.keys(plugins('node-*')).length.should.equal(3);
+    Object.keys(plugins('node-*')).length.should.equal(3);
   });
 
   it('should load local plugins', function () {
