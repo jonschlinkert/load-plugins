@@ -14,25 +14,15 @@ var resolve = require('resolve-dep');
 
 describe('plugins', function () {
   it('should load plugins from node_modules', function () {
-    plugins('gulp-*').should.keys([
-      'mocha'
-    ]);
+    plugins('gulp-*').should.have.properties(['mocha']);
   });
 
   it('should load plugins from node_modules', function () {
-    plugins('node-*').should.keys([
-      'nodeBar',
-      'nodeBaz',
-      'nodeFoo'
-    ]);
+    plugins('node-*').should.have.properties(['nodeBar', 'nodeBaz', 'nodeFoo']);
   });
 
   it('should load local plugins', function () {
-    plugins('./test/fixtures/**/*.js').should.keys([
-      'a',
-      'b',
-      'c'
-    ]);
+    plugins('./test/fixtures/**/*.js').should.have.properties(['a', 'b', 'c']);
   });
 
   it('should allow a custom `name` function to be passed', function () {
@@ -40,10 +30,6 @@ describe('plugins', function () {
       rename: function (filepath) {
         return filepath;
       }
-    }).should.keys([
-      'a',
-      'b',
-      'c'
-    ]);
+    }).should.have.properties(['a', 'b', 'c']);
   });
 });

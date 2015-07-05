@@ -40,9 +40,7 @@ module.exports = plugins;
 
 function plugins(patterns, options) {
   var files = resolve(patterns, extend({strict: true}, options));
-  var opts = extend({
-    camelize: true
-  }, options);
+  var opts = extend({camelize: true}, options);
 
   return files.reduce(function (cache, fp) {
     var key = rename(fp, opts);
