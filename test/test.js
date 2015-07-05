@@ -21,6 +21,11 @@ describe('plugins', function () {
     plugins('node-*').should.have.properties(['nodeBar', 'nodeBaz', 'nodeFoo']);
   });
 
+  it('should load plugins from node_modules', function () {
+    plugins('node-{bar,baz}').should.have.properties(['nodeBar', 'nodeBaz']);
+    plugins('node-{bar,baz}').should.not.have.properties(['nodeFoo']);
+  });
+
   it('should load local plugins', function () {
     plugins('./test/fixtures/**/*.js').should.have.properties(['a', 'b', 'c']);
   });
