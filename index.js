@@ -34,8 +34,12 @@ module.exports = plugins;
  */
 
 function plugins(patterns, options) {
-  var files = resolve(patterns, extend({strict: true}, options));
-  var opts = extend({camelize: true}, options);
+  var opts = extend({
+    strict: true,
+    camelize: true,
+    strip: utils.excludes
+  }, options);
+  var files = resolve(patterns, opts);
 
   return files.reduce(function (cache, fp) {
     var key = rename(fp, opts);
@@ -77,7 +81,6 @@ function req(filepath, options) {
  */
 
 function rename(filepath, options) {
-  var opts = extend({strip: utils.excludes}, options);
   var name;
 
   filepath = utils.relative(filepath);
@@ -92,8 +95,8 @@ function rename(filepath, options) {
     name = utils.segments(filepath, -2)[0];
   }
 
-  var str = appname(name, opts.strip);
-  if (opts.camelize) {
+  var str = appname(name, options.strip);
+  if (options.camelize) {
     return utils.camelize(str);
   }
   return str;
