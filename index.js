@@ -92,7 +92,7 @@ function rename(filepath, options) {
     name = utils.segments(filepath, -2)[0];
   }
 
-  var str = appname(name, utils.expandBraces(opts.strip));
+  var str = appname(name, opts.strip);
   if (opts.camelize) {
     return utils.camelize(str);
   }
