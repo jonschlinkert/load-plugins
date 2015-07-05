@@ -4,14 +4,14 @@
   "version": "2.0.0",
   "homepage": "https://github.com/jonschlinkert/load-plugins",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "contributors": [
+    "Bogdan Chadkin <trysound@yandex.ru>"
+  ],
   "repository": "jonschlinkert/load-plugins",
   "bugs": {
     "url": "https://github.com/jonschlinkert/load-plugins/issues"
   },
   "license": "MIT",
-  "files": [
-    "index.js"
-  ],
   "main": "index.js",
   "engines": {
     "node": ">=0.10.0"
