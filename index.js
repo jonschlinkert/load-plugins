@@ -10,13 +10,8 @@
 var path = require('path');
 var appname = require('app-name');
 var resolve = require('resolve-dep');
-var camelize = require('./lib/camelize');
-var segments = require('./lib/segments');
-var basename = require('./lib/basename');
-var excludes = require('./lib/excludes');
-var relative = require('./lib/relative');
-var expand = require('./lib/expand');
-var extend = require('./lib/extend');
+var extend = require('extend-shallow');
+var utils = require('./lib/utils');
 
 /**
  * Expose `plugins`
@@ -82,24 +77,24 @@ function req(filepath, options) {
  */
 
 function rename(filepath, options) {
-  var opts = extend({strip: excludes}, options);
+  var opts = extend({strip: utils.excludes}, options);
   var name;
 
-  filepath = relative(filepath);
+  filepath = utils.relative(filepath);
 
   if (/node_modules/.test(filepath)) {
-    name = segments(filepath, 1, 2);
+    name = utils.segments(filepath, 1, 2);
   } else {
-    name = basename(filepath);
+    name = utils.basename(filepath);
   }
 
   if (name === 'index') {
-    name = segments(filepath, -2)[0];
+    name = utils.segments(filepath, -2)[0];
   }
 
-  var str = appname(name, expand(opts.strip));
+  var str = appname(name, utils.expandBraces(opts.strip));
   if (opts.camelize) {
-    return camelize(str);
+    return utils.camelize(str);
   }
   return str;
 }
