@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "app-name": "^0.2.0",
-    "braces": "^1.8.0",
     "extend-shallow": "^2.0.0",
     "resolve-dep": "^0.5.3"
   },
