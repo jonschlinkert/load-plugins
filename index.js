@@ -38,8 +38,11 @@ module.exports = plugins;
  * @return {String}
  */
 
-function plugins(patterns, opts) {
-  var files = resolve(patterns, extend({strict: true}, opts));
+function plugins(patterns, options) {
+  var files = resolve(patterns, extend({strict: true}, options));
+  var opts = extend({
+    camelize: true
+  }, options);
 
   return files.reduce(function (cache, fp) {
     var key = rename(fp, opts);
@@ -58,9 +61,8 @@ function plugins(patterns, opts) {
  */
 
 function req(filepath, options) {
-  var opts = extend({}, options);
-  if (opts.require) {
-    return opts.require(filepath, opts);
+  if (options.require) {
+    return options.require(filepath, options);
   }
   var fp = path.resolve(filepath);
   return require(fp);
