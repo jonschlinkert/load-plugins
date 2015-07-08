@@ -12,6 +12,7 @@ var appname = require('app-name');
 var resolve = require('resolve-dep');
 var extend = require('extend-shallow');
 var utils = require('./lib/utils');
+var registry = require('./lib/registry')
 
 /**
  * Expose `plugins`
@@ -37,7 +38,7 @@ function plugins(patterns, options) {
   var opts = extend({
     strict: true,
     camelize: true,
-    strip: utils.excludes
+    strip: registry.strip
   }, options);
   var files = resolve(patterns, opts);
 

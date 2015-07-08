@@ -1,7 +1,7 @@
 {
   "name": "load-plugins",
   "description": "Load plugins for gulp, grunt, assemble, verb any node.js app that needs to load plugins from node_modules or local folders.",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "homepage": "https://github.com/jonschlinkert/load-plugins",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "contributors": [

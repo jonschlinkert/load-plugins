@@ -1,0 +1,11 @@
+{
+  "strip": [
+    "gulp",
+    "assemble",
+    "grunt",
+    "generator",
+    "handlebars",
+    "helper",
+    "postcss"
+  ]
+}
