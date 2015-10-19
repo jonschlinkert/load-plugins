@@ -11,8 +11,6 @@ var path = require('path');
 var appname = require('app-name');
 var resolve = require('resolve-dep');
 var extend = require('extend-shallow');
-var utils = require('./lib/utils');
-var registry = require('./lib/registry')
 
 /**
  * Expose `plugins`
@@ -36,9 +34,10 @@ module.exports = plugins;
 
 function plugins(patterns, options) {
   var opts = extend({
-    strict: true,
     camelize: true,
-    strip: registry.strip
+    strip: false,
+    rename: false,
+    require: false
   }, options);
   var files = resolve(patterns, opts);
 
@@ -59,11 +58,10 @@ function plugins(patterns, options) {
  */
 
 function req(filepath, options) {
-  if (options.require) {
+  if (typeof options.require === 'function') {
     return options.require(filepath, options);
   }
-  var fp = path.resolve(filepath);
-  return require(fp);
+  return require(path.resolve(filepath));
 }
 
 /**
@@ -82,23 +80,34 @@ function req(filepath, options) {
  */
 
 function rename(filepath, options) {
+  var file = path.parse(filepath);
+  var segments = path.relative(process.cwd(), file.dir).split(path.sep);
   var name;
 
-  filepath = utils.relative(filepath);
-
-  if (/node_modules/.test(filepath)) {
-    name = utils.segments(filepath, 1, 2);
+  if (segments.indexOf('node_modules') !== -1) {
+    name = segments[1];
   } else {
-    name = utils.basename(filepath);
+    name = file.name;
+    if (name === 'index' && segments.length) {
+      name = segments[segments.length - 1];
+    }
   }
 
-  if (name === 'index') {
-    name = utils.segments(filepath, -2)[0];
+  if (typeof options.rename === 'function') {
+    name = options.rename(name);
+  } else {
+    name = options.strip ? appname(name, options.strip) : name;
+    if (options.camelize) {
+      return camelize(name);
+    }
   }
 
-  var str = appname(name, options.strip);
-  if (options.camelize) {
-    return utils.camelize(str);
-  }
-  return str;
+  return name;
+}
+
+
+function camelize(str) {
+  return str.replace(/[_.-](\w|$)/g, function (_, first) {
+    return first.toUpperCase();
+  });
 }

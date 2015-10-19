@@ -10,11 +10,10 @@
 /* deps: mocha node-foo node-bar node-baz gulp-mocha */
 require('should');
 var plugins = require('..');
-var resolve = require('resolve-dep');
 
 describe('plugins', function () {
-  it('should load plugins from node_modules', function () {
-    plugins('gulp-*').should.have.properties(['mocha']);
+  it('should load plugins from node_modules and strip names', function () {
+    plugins('gulp-*', {strip: 'gulp'}).should.have.properties(['mocha', 'postcss']);
   });
 
   it('should load plugins from node_modules', function () {
@@ -27,14 +26,16 @@ describe('plugins', function () {
   });
 
   it('should load local plugins', function () {
-    plugins('./test/fixtures/**/*.js').should.have.properties(['a', 'b', 'c']);
+    plugins('./test/fixtures/**/*.js').should.have.properties(['ab', 'bc', 'cd']);
   });
 
   it('should allow a custom `name` function to be passed', function () {
-    plugins('./test/fixtures/**/*.js', {
+    var i = 0;
+    plugins('gulp-*', {
       rename: function (filepath) {
-        return filepath;
+        i += 1
+        return i;
       }
-    }).should.have.properties(['a', 'b', 'c']);
+    }).should.have.properties([1, 2]);
   });
 });
