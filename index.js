@@ -80,17 +80,16 @@ function req(filepath, options) {
  */
 
 function rename(filepath, options) {
-  var file = path.parse(filepath);
-  var segments = path.relative(process.cwd(), file.dir).split(path.sep);
+  var segments;
   var name;
+  filepath = path.relative(process.cwd(), filepath);
+  segments = filepath.split(path.sep).slice(0, -1);
+  name = path.basename(filepath, path.extname(filepath));
 
   if (segments.indexOf('node_modules') !== -1) {
     name = segments[1];
-  } else {
-    name = file.name;
-    if (name === 'index' && segments.length) {
-      name = segments[segments.length - 1];
-    }
+  } else if (name === 'index' && segments.length) {
+    name = segments[segments.length - 1];
   }
 
   if (typeof options.rename === 'function') {
