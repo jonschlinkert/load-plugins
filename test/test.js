@@ -13,7 +13,8 @@ var plugins = require('..');
 
 describe('plugins', function () {
   it('should load plugins from node_modules and strip names', function () {
-    plugins('gulp-*', {strip: 'gulp', lazy: false}).should.have.properties(['mocha', 'postcss']);
+    var result = plugins('gulp-*', {strip: 'gulp', lazy: false});
+    Object.keys(result).should.be.eql(['mocha', 'postcss']);
   });
 
   it('should lazy load plugins from node_modules', function () {
