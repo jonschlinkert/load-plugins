@@ -25,9 +25,12 @@
   "dependencies": {
     "app-name": "^0.2.0",
     "extend-shallow": "^2.0.0",
+    "file-name": "^0.1.0",
+    "lazy-cache": "^0.2.3",
     "resolve-dep": "^0.5.3"
   },
   "devDependencies": {
+    "camelcase": "^1.2.1",
     "gulp": "^3.8.7",
     "gulp-mocha": "^1.0.0",
     "gulp-postcss": "^6.0.1",

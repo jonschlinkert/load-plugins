@@ -13,16 +13,19 @@ var plugins = require('..');
 
 describe('plugins', function () {
   it('should load plugins from node_modules and strip names', function () {
-    plugins('gulp-*', {strip: 'gulp'}).should.have.properties(['mocha', 'postcss']);
+    plugins('gulp-*', {strip: 'gulp', lazy: false}).should.have.properties(['mocha', 'postcss']);
+  });
+
+  it('should lazy load plugins from node_modules', function () {
+    var result = plugins('node-*');
+    result.should.have.properties(['nodeBar', 'nodeBaz', 'nodeFoo']);
+    result.should.be.eql({});
   });
 
   it('should load plugins from node_modules', function () {
-    plugins('node-*').should.have.properties(['nodeBar', 'nodeBaz', 'nodeFoo']);
-  });
-
-  it('should load plugins from node_modules', function () {
-    plugins('node-{bar,baz}').should.have.properties(['nodeBar', 'nodeBaz']);
-    plugins('node-{bar,baz}').should.not.have.properties(['nodeFoo']);
+    var result = plugins('node-{bar,baz}');
+    result.should.have.properties(['nodeBar', 'nodeBaz']);
+    result.should.not.have.properties(['nodeFoo']);
   });
 
   it('should load local plugins', function () {
@@ -32,6 +35,7 @@ describe('plugins', function () {
   it('should allow a custom `name` function to be passed', function () {
     var i = 0;
     plugins('gulp-*', {
+      lazy: false,
       rename: function (filepath) {
         i += 1
         return i;
