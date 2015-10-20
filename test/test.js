@@ -19,7 +19,7 @@ describe('plugins', function () {
   it('should lazy load plugins from node_modules', function () {
     var result = plugins('node-*');
     result.should.have.properties(['nodeBar', 'nodeBaz', 'nodeFoo']);
-    result.should.be.eql({});
+    Object.keys(result).should.be.eql([]);
   });
 
   it('should load plugins from node_modules', function () {

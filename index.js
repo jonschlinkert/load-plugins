@@ -47,23 +47,19 @@ function plugins(patterns, options) {
   if (typeof opts.require !== 'function') {
     opts.require = require;
   }
-  var files = resolve(patterns, opts);
   var lazy = lazyCache(opts.require);
+  var cache = {};
 
-  return files.reduce(function (cache, filepath) {
+  resolve(patterns, opts).forEach(function (filepath) {
     var name = rename(filepath, opts);
     if (opts.lazy) {
-      Object.defineProperty(cache, name, {
-        get: function () {
-          lazy(filepath, name);
-          return lazy[name];
-        }
-      });
+      lazy(filepath, name);
     } else {
       cache[name] = opts.require(filepath, opts);
     }
-    return cache;
-  }, {});
+  });
+
+  return opts.lazy ? lazy : cache;
 }
 
 
