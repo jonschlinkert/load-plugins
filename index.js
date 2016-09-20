@@ -87,7 +87,7 @@ function rename(filepath, options) {
   filepath = utils.relative(filepath);
 
   if (/node_modules/.test(filepath)) {
-    name = utils.segments(filepath, 1, 2);
+    name = utils.segments(filepath.replace(/.*\/(?=node_modules)/,''), 1, 2);
   } else {
     name = utils.basename(filepath);
   }
