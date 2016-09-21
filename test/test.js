@@ -37,4 +37,12 @@ describe('plugins', function () {
       }
     }).should.have.properties(['a', 'b', 'c']);
   });
+
+  it('Should correctly rename plugin when cwd is not at project root.', function () {
+    var originalCwd = process.cwd();
+
+    process.chdir(__dirname);
+    plugins('gulp-*').should.have.properties(['mocha']);
+    process.chdir(originalCwd);
+  });
 });
