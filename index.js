@@ -40,6 +40,14 @@ function plugins(patterns, options) {
     camelize: true,
     strip: registry.strip
   }, options);
+
+  // resolve-dep calls loadPkg.sync() and then indexes dependency fields. When no
+  // package.json is found, sync() returns null and resolve-dep throws (#14).
+  // Normalize null to {} so npm-pattern resolution returns [] and we return {}.
+  if (opts.config == null) {
+    opts.config = readPkgConfig();
+  }
+
   var files = resolve(patterns, opts);
 
   return files.reduce(function (cache, fp) {
@@ -47,6 +55,19 @@ function plugins(patterns, options) {
     cache[key] = req(fp, opts);
     return cache;
   }, {});
+}
+
+/**
+ * Read nearest package.json (same loader resolve-dep uses), or {}.
+ * @api private
+ */
+
+function readPkgConfig() {
+  try {
+    return require('load-pkg').sync() || {};
+  } catch (err) {
+    return {};
+  }
 }
 
 /**

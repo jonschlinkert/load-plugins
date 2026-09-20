@@ -45,4 +45,21 @@ describe('plugins', function () {
     plugins('gulp-*').should.have.properties(['mocha']);
     process.chdir(originalCwd);
   });
+
+  // Fixes #14: missing package.json previously threw from resolve-dep
+  it('should return an empty object when package.json is missing', function () {
+    var fs = require('fs');
+    var os = require('os');
+    var path = require('path');
+    var dir = fs.mkdtempSync(path.join(os.tmpdir(), 'load-plugins-'));
+    var originalCwd = process.cwd();
+    process.chdir(dir);
+    try {
+      plugins('gulp-*').should.eql({});
+      plugins('node-*').should.eql({});
+    } finally {
+      process.chdir(originalCwd);
+    }
+  });
+
 });
