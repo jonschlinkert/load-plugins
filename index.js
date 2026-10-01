@@ -7,6 +7,7 @@
 
 'use strict';
 
+var fs = require('fs');
 var path = require('path');
 var appname = require('app-name');
 var resolve = require('resolve-dep');
@@ -17,6 +18,30 @@ var registry = require('./lib/registry')
 /**
  * Expose `plugins`
  */
+
+
+/**
+ * Walk from `dir` upward until a package.json is found.
+ * Returns the parsed object, or null if none exists.
+ */
+function readPackageJson(dir) {
+  var current = dir;
+  while (true) {
+    var pkgPath = path.join(current, 'package.json');
+    if (fs.existsSync(pkgPath)) {
+      try {
+        return JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+      } catch (err) {
+        return null;
+      }
+    }
+    var parent = path.dirname(current);
+    if (parent === current) {
+      return null;
+    }
+    current = parent;
+  }
+}
 
 module.exports = plugins;
 
@@ -40,6 +65,14 @@ function plugins(patterns, options) {
     camelize: true,
     strip: registry.strip
   }, options);
+
+  // resolve-dep reads package.json via load-pkg; when none exists it returns
+  // null/undefined and then throws on deps access. Walk upward like load-pkg,
+  // and treat a total miss as an empty dependency map.
+  if (opts.config == null) {
+    opts.config = readPackageJson(process.cwd()) || {};
+  }
+
   var files = resolve(patterns, opts);
 
   return files.reduce(function (cache, fp) {

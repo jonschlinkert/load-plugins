@@ -45,4 +45,21 @@ describe('plugins', function () {
     plugins('gulp-*').should.have.properties(['mocha']);
     process.chdir(originalCwd);
   });
+
+  it('should return an empty object when package.json is missing', function () {
+    var fs = require('fs');
+    var os = require('os');
+    var path = require('path');
+    var originalCwd = process.cwd();
+    var tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'load-plugins-'));
+
+    try {
+      process.chdir(tmp);
+      plugins('gulp-*').should.eql({});
+    } finally {
+      process.chdir(originalCwd);
+      try { fs.rmdirSync(tmp); } catch (err) {}
+    }
+  });
+
 });
